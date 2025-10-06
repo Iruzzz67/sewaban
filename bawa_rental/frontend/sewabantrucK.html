@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sewa Ban Motor - BAWA</title>
+    <link rel="stylesheet" href="/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <style>
+        :root {
+            --primary: #0d6efd;
+            --secondary: #6c757d;
+            --success: #198754;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #0dcaf0;
+            --light: #f8f9fa;
+            --dark: #212529;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0044ff 0%, #007c92 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar-brand {
+            color: black !important;
+            font-weight: 800;
+            font-size: 1.8rem;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, var(--primary), #0a58ca);
+            border-radius: 20px 20px 0 0 !important;
+            padding: 1.5rem;
+        }
+        
+        .form-section {
+            background: var(--light);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .form-section h5 {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .form-section h5 i {
+            margin-right: 10px;
+        }
+        
+        .radio-group {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .radio-group:hover {
+            border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(13, 110, 253, 0.1);
+        }
+        
+        .form-check-input:checked {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .required::after {
+            content: " *";
+            color: var(--danger);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #0a58ca);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(13, 110, 253, 0.3);
+        }
+        
+        .btn-outline-secondary {
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-weight: 600;
+        }
+        
+        .file-upload {
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+        
+        .file-upload:hover {
+            border-color: var(--primary);
+            background: #f8f9fa;
+        }
+        
+        .file-upload i {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .alert {
+            border-radius: 15px;
+            border: none;
+            font-weight: 500;
+        }
+        
+        .alert-success {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            color: #155724;
+        }
+        
+        .alert-danger {
+            background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+            color: #721c24;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .step-indicator::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e9ecef;
+            z-index: 1;
+        }
+        
+        .step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            flex: 1;
+        }
+        
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+        
+        .step.active .step-number {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        
+        .step-label {
+            font-size: 0.8rem;
+            color: var(--secondary);
+            font-weight: 500;
+        }
+        
+        .step.active .step-label {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .form-step {
+            display: none;
+        }
+        
+        .form-step.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .preview-image {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 10px;
+            margin: 5px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .floating-label {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .floating-label input, 
+        .floating-label select {
+            height: 50px;
+            padding-top: 1rem;
+        }
+        
+        .floating-label label {
+            position: absolute;
+            top: 50%;
+            left: 12px;
+            transform: translateY(-50%);
+            background: white;
+            padding: 0 5px;
+            color: var(--secondary);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .floating-label input:focus + label,
+        .floating-label input:not(:placeholder-shown) + label,
+        .floating-label select:focus + label,
+        .floating-label select:not([value=""]) + label {
+            top: 0;
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-tire"></i> BAWA RENTAL
+            </a>
+            
+        </div>
+    </nav>
+
+    <div class="container mb-5">
+        <!-- Alert Notifications -->
+        <div id="alertSuccess" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
+            <i class="fas fa-check-circle me-2"></i>
+            <strong>Sukses!</strong> <span id="successMessage">Data penyewaan berhasil disimpan!</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        
+        <div id="alertError" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <strong>Error!</strong> <span id="errorMessage"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card">
+                    <div class="card-header text-white text-center">
+                        <h2 class="mb-3"><i class="fas fa-tire me-2"></i>Formulir Penyewaan Ban Motor</h2>
+                        <p class="mb-0">Isi data dengan lengkap dan benar untuk proses yang cepat</p>
+                    </div>
+                    
+                    <div class="card-body p-4">
+                        <!-- Step Indicator -->
+                        <div class="step-indicator">
+                            <div class="step active" data-step="1">
+                                <div class="step-number">1</div>
+                                <div class="step-label">Informasi Dasar</div>
+                            </div>
+                            <div class="step" data-step="2">
+                                <div class="step-number">2</div>
+                                <div class="step-label">Data Kendaraan</div>
+                            </div>
+                            <div class="step" data-step="3">
+                                <div class="step-number">3</div>
+                                <div class="step-label">Spesifikasi Ban</div>
+                            </div>
+                            <div class="step" data-step="4">
+                                <div class="step-number">4</div>
+                                <div class="step-label">Konfirmasi</div>
+                            </div>
+                        </div>
+
+                        <form id="formSewaBan" enctype="multipart/form-data">
+                            <!-- Step 1: Informasi Dasar -->
+                            <div class="form-step active" id="step1">
+                                <div class="form-section">
+                                    <h5><i class="fas fa-user"></i> Informasi Pengecekan</h5>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="floating-label">
+                                                <input type="text" class="form-control" id="Nama_lengkap" name="Nama_lengkap" placeholder=" " required>
+                                                <label for="Nama_lengkap" class="required">Nama Yang Check List</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="floating-label">
+                                                <input type="date" class="form-control" id="tglpengecekan" name="tglpengecekan" required>
+                                                <label for="tglpengecekan" class="required">Tanggal Pengecekan</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="floating-label">
+                                        <input type="text" class="form-control" id="customer" name="customer" placeholder=" " required>
+                                        <label for="customer" class="required">Nama Customer</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Data Kendaraan -->
+                            <div class="form-step" id="step2">
+                                <div class="form-section">
+                                    <h5><i class="fas fa-truck"></i> Data Kendaraan</h5>
+                                    
+                                    <div class="mb-4">
+                                        <label class="form-label required">Truck Brand</label>
+                                        <div class="radio-group">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="truck_brand" id="brandHino" value="Hino" required>
+                                                        <label class="form-check-label" for="brandHino">Hino</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="truck_brand" id="brandIsuzu" value="Isuzu">
+                                                        <label class="form-check-label" for="brandIsuzu">Isuzu</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="truck_brand" id="brandMitsubishi" value="Mitsubishi">
+                                                        <label class="form-check-label" for="brandMitsubishi">Mitsubishi</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="truck_brand" id="brandUdtruck" value="UD Truck">">
+                                                        <label class="form-check-label" for="brandUdtruck">UD Trucks (Nissan Diesel)</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="truck_brand" id="brandToyota" value="Toyota">
+                                                        <label class="form-check-label" for="brandToyota">Toyota</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="truck_brand" id="brandScania" value="Scania">
+                                                        <label class="form-check-label" for="brandScania">Scania</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="truck_brand" id="brandVolvo" value="Volvo">
+                                                        <label class="form-check-label" for="brandVolvo">Volvo</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label class="form-label required">Jenis Truck</label>
+                                        <div class="radio-group">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="Jenis_truck" id="Jenis_pickup" value="Pickup" required>
+                                                        <label class="form-check-label" for="Jenis_pickup">Truck Pick up</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="Jenis_truck" id="jenis_CDE" value="CDE">
+                                                        <label class="form-check-label" for="jenis_CDE">Truck Colt Diesel Engkel (CDE)</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="Jenis_truck" id="jenis_CDD" value="CDD">
+                                                        <label class="form-check-label" for="jenis_CDD">Truck Colt Diesel Double (CDD)</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="Jenis_truck" id="jenis_Fuso" value="Fuso">
+                                                        <label class="form-check-label" for="jenis_Fuso">Truck Fuso</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="Jenis_truck" id="jenis_tronton" value="tronton">
+                                                        <label class="form-check-label" for="jenis_tronton">Truck Tronton</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="Jenis_truck" id="jenis_wingbox" value="wingbox">
+                                                        <label class="form-check-label" for="jenis_wingbox">Truck Wingbox</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="Jenis_truck" id="jenis_trailer" value="trailer">
+                                                        <label class="form-check-label" for="jenis_trailer">Truck Trailer</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="Jenis_truck" id="jenis_Tangki" value="Tangki">
+                                                        <label class="form-check-label" for="jenis_Tangki">Truck Tangki</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="Jenis_truck" id="jenis_Dump" value="Dump">
+                                                        <label class="form-check-label" for="jenis_Dump">Truck Dump</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="Jenis_truck" id="jenis_Kontainer" value="Kontainer">
+                                                        <label class="form-check-label" for="jenis_Kontainer">Truck Kontainer</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="floating-label">
+                                                <input type="text" class="form-control" id="nopol" name="nopol" placeholder=" " required>
+                                                <label for="nopol" class="required">Nomor Polisi</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="floating-label">
+                                                <input type="number" class="form-control" id="KM_ODO" name="KM_ODO" placeholder=" " required>
+                                                <label for="KM_ODO" class="required">KM ODO</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 3: Spesifikasi Ban -->
+                            <div class="form-step" id="step3">
+                                <div class="form-section">
+                                    <h5><i class="fas fa-cog"></i> Spesifikasi Ban</h5>
+                                    
+                                    <!-- Posisi Ban -->
+                                    <div class="mb-4">
+                                        <label class="form-label required">Posisi Ban</label>
+                                        <div class="radio-group">
+                                            <div class="row">
+                                                <div class="col-6 col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="posisi_ban" id="posisi1L" value="1L" required>
+                                                        <label class="form-check-label" for="posisi1L">1L</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="posisi_ban" id="posisi1R" value="1R">
+                                                        <label class="form-check-label" for="posisi1R">1R</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="posisi_ban" id="posisi2LO" value="2LO">
+                                                        <label class="form-check-label" for="posisi2LO">2LO</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="posisi_ban" id="posisi2LI" value="2LI">
+                                                        <label class="form-check-label" for="posisi2LI">2LI</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="posisi_ban" id="posisi2RI" value="2RI">
+                                                        <label class="form-check-label" for="posisi2RI">2RI</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="posisi_ban" id="posisi2RO" value="2RO">
+                                                        <label class="form-check-label" for="posisi2RO">2RO</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="posisi_ban" id="posisi3LO" value="3LO">
+                                                        <label class="form-check-label" for="posisi3LO">3LO</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="posisi_ban" id="posisi3LI" value="3LI">
+                                                        <label class="form-check-label" for="posisi3LI">3LI</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="posisi_ban" id="posisiSRP" value="SRP">
+                                                        <label class="form-check-label" for="posisiSRP">SRP</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Ukuran Ban -->
+                                    <div class="mb-4">
+                                        <label class="form-label required">Ukuran Ban</label>
+                                        <div class="radio-group">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="ukuran_ban" id="ukuran75015" value="7.50-15" required>
+                                                        <label class="form-check-label" for="ukuran75015">7.50-15</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="ukuran_ban" id="ukuran75016" value="7.50-16">
+                                                        <label class="form-check-label" for="ukuran75016">7.50-16</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="ukuran_ban" id="ukuran100020" value="10.00-20">
+                                                        <label class="form-check-label" for="ukuran100020">10.00-20</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="ukuran_ban" id="ukuran1000R20" value="10.00R20">
+                                                        <label class="form-check-label" for="ukuran1000R20">10.00R20</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="ukuran_ban" id="ukuran110020" value="11.00-20">
+                                                        <label class="form-check-label" for="ukuran110020">11.00-20</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="ukuran_ban" id="ukuran1100R20" value="11.00R20">
+                                                        <label class="form-check-label" for="ukuran1100R20">11.00R20</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-check mt-2">
+                                                <input class="form-check-input" type="radio" name="ukuran_ban" id="ukuranLain" value="lain">
+                                                <label class="form-check-label" for="ukuranLain">Ukuran Lainnya</label>
+                                            </div>
+                                            <input type="text" class="form-control mt-2" id="ukuran_ban_lain" name="ukuran_ban_lain" placeholder="Tulis ukuran ban lainnya" style="display: none;">
+                                        </div>
+                                    </div>
+
+                                    <!-- Merk Ban -->
+                                    <div class="mb-4">
+                                        <label class="form-label required">Merk Ban</label>
+                                        <div class="radio-group">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="merk_ban" id="merkMichelin" value="Michelin" required>
+                                                        <label class="form-check-label" for="merkMichelin">Michelin</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="merk_ban" id="merkBridgestone" value="Bridgestone">
+                                                        <label class="form-check-label" for="merkBridgestone">Bridgestone</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="merk_ban" id="merkGoodyear" value="Goodyear">
+                                                        <label class="form-check-label" for="merkGoodyear">Goodyear</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="merk_ban" id="merkGajahTunggal" value="Gajah Tunggal">
+                                                        <label class="form-check-label" for="merkGajahTunggal">Gajah Tunggal</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="merk_ban" id="merkDunlop" value="Dunlop">
+                                                        <label class="form-check-label" for="merkDunlop">Dunlop</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="merk_ban" id="merkHankook" value="Hankook">
+                                                        <label class="form-check-label" for="merkHankook">Hankook</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="merk_ban" id="merkMRF" value="MRF">
+                                                        <label class="form-check-label" for="merkMRF">MRF</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="merk_ban" id="merkAeolus" value="Aeolus">
+                                                        <label class="form-check-label" for="merkAeolus">Aeolus</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-check mt-2">
+                                                <input class="form-check-input" type="radio" name="merk_ban" id="merkLain" value="lain">
+                                                <label class="form-check-label" for="merkLain">Merk Lainnya</label>
+                                            </div>
+                                            <input type="text" class="form-control mt-2" id="merk_ban_lain" name="merk_ban_lain" placeholder="Tulis merk ban lainnya" style="display: none;">
+                                        </div>
+                                    </div>
+
+                                    <!-- Kondisi Ban -->
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="form-label required">Pattern Ban</label>
+                                            <select class="form-select" name="pattern_ban" required>
+                                                <option value="">Pilih Pattern</option>
+                                                <option value="Rib">Jenis Rib</option>
+                                                <option value="Lug">Jenis Lug</option>
+                                                <option value="Block">Jenis Block</option>
+                                                <option value="Kombinasi Rib dan Lug">Kombinasi Rib dan Lug</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label required">Depth</label>
+                                            <select class="form-select" name="depth_ban" required>
+                                                <option value="">Pilih Depth</option>
+                                                <option value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="floating-label">
+                                                <input type="text" class="form-control" id="pressure" name="pressure" placeholder=" " required>
+                                                <label for="pressure" class="required">Pressure (PSI)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                        <div class="col-md-4">
+                                            <label class="form-label required">Tread</label>
+                                            <select class="form-select" name="tread" required>
+                                                <option value="">Pilih Tread</option>
+                                                <option value="Normal">Normal</option>
+                                                <option value="Cacat">Cacat</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label required">Side Wall</label>
+                                            <select class="form-select" name="side_wall" required>
+                                                <option value="">Pilih Side Wall</option>
+                                                <option value="Normal">Normal</option>
+                                                <option value="Cacat">Cacat</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label required">Kondisi Ban</label>
+                                            <select class="form-select" name="Kondisiban" required>
+                                                <option value="">Pilih Kondisi</option>
+                                                <option value="Original">Original</option>
+                                                <option value="Vulkanisir">Vulkanisir</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- File Uploads -->
+                                <div class="form-section">
+                                    <h5><i class="fas fa-camera"></i> Dokumentasi Foto</h5>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label required">Foto KM ODO</label>
+                                            <div class="file-upload">
+                                                <i class="fas fa-file-image"></i>
+                                                <input type="file" class="form-control" name="foto_KMODO" accept="image/*" required>
+                                                <small class="text-muted">Upload foto KM ODO kendaraan</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label required">Foto Merk Ban</label>
+                                            <div class="file-upload">
+                                                <i class="fas fa-file-image"></i>
+                                                <input type="file" class="form-control" name="foto_merkban" accept="image/*" required>
+                                                <small class="text-muted">Upload foto merk ban</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label required">Foto Tread</label>
+                                            <div class="file-upload">
+                                                <i class="fas fa-file-image"></i>
+                                                <input type="file" class="form-control" name="foto_tread" accept="image/*" required>
+                                                <small class="text-muted">Upload foto tread ban</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label required">Foto Side Wall</label>
+                                            <div class="file-upload">
+                                                <i class="fas fa-file-image"></i>
+                                                <input type="file" class="form-control" name="foto_sidewall" accept="image/*" required>
+                                                <small class="text-muted">Upload foto side wall</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label required">Foto Kondisi Ban</label>
+                                            <div class="file-upload">
+                                                <i class="fas fa-file-image"></i>
+                                                <input type="file" class="form-control" name="foto_kondisiban" accept="image/*" required>
+                                                <small class="text-muted">Upload foto kondisi ban</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 4: Konfirmasi -->
+                            <div class="form-step" id="step4">
+                                <div class="form-section text-center">
+                                    <h5><i class="fas fa-check-circle"></i> Konfirmasi Data</h5>
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        Silakan periksa kembali data yang telah diisi sebelum submit
+                                    </div>
+                                    <div id="dataPreview" class="text-start"></div>
+                                </div>
+                            </div>
+
+                            <!-- Navigation Buttons -->
+                            <div class="navigation-buttons">
+                                <button type="button" class="btn btn-outline-secondary" id="btnPrev" style="display: none;">
+                                    <i class="fas fa-arrow-left me-2"></i>Sebelumnya
+                                </button>
+                                <button type="button" class="btn btn-primary" id="btnNext">
+                                    Selanjutnya <i class="fas fa-arrow-right ms-2"></i>
+                                </button>
+                                <button type="submit" class="btn btn-success" id="btnSubmit" style="display: none;">
+                                    <i class="fas fa-paper-plane me-2"></i>Submit Data
+                                </button>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <div class="container">
+            <small>&copy; 2024 BAWA Rental. All rights reserved.</small>
+        </div>
+    </footer>
+
+    <script src="bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Set tanggal hari ini sebagai default
+        document.getElementById('tglpengecekan').valueAsDate = new Date();
+
+        // Multi-step form functionality
+        let currentStep = 1;
+        const totalSteps = 4;
+
+        // Step navigation
+        document.getElementById('btnNext').addEventListener('click', nextStep);
+        document.getElementById('btnPrev').addEventListener('click', prevStep);
+
+        function nextStep() {
+            if (validateStep(currentStep)) {
+                if (currentStep < totalSteps) {
+                    document.getElementById(`step${currentStep}`).classList.remove('active');
+                    currentStep++;
+                    document.getElementById(`step${currentStep}`).classList.add('active');
+                    updateStepIndicator();
+                    updateNavigationButtons();
+                    
+                    if (currentStep === totalSteps) {
+                        showDataPreview();
+                    }
+                }
+            }
+        }
+
+        function prevStep() {
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            currentStep--;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            updateStepIndicator();
+            updateNavigationButtons();
+        }
+
+        function updateStepIndicator() {
+            document.querySelectorAll('.step').forEach((step, index) => {
+                if (index + 1 <= currentStep) {
+                    step.classList.add('active');
+                } else {
+                    step.classList.remove('active');
+                }
+            });
+        }
+
+        function updateNavigationButtons() {
+            const btnPrev = document.getElementById('btnPrev');
+            const btnNext = document.getElementById('btnNext');
+            const btnSubmit = document.getElementById('btnSubmit');
+
+            if (currentStep === 1) {
+                btnPrev.style.display = 'none';
+                btnNext.style.display = 'inline-block';
+                btnSubmit.style.display = 'none';
+            } else if (currentStep === totalSteps) {
+                btnPrev.style.display = 'inline-block';
+                btnNext.style.display = 'none';
+                btnSubmit.style.display = 'inline-block';
+            } else {
+                btnPrev.style.display = 'inline-block';
+                btnNext.style.display = 'inline-block';
+                btnSubmit.style.display = 'none';
+            }
+        }
+
+        function validateStep(step) {
+            const currentStepElement = document.getElementById(`step${step}`);
+            const inputs = currentStepElement.querySelectorAll('input[required], select[required]');
+            
+            for (let input of inputs) {
+                if (!input.value) {
+                    input.focus();
+                    showAlert('error', `Harap isi field: ${input.labels[0].textContent}`);
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // Handle custom inputs for ukuran and merk ban
+        document.getElementById('ukuranLain').addEventListener('change', function() {
+            const lainInput = document.getElementById('ukuran_ban_lain');
+            lainInput.style.display = this.checked ? 'block' : 'none';
+            lainInput.required = this.checked;
+        });
+
+        document.getElementById('merkLain').addEventListener('change', function() {
+            const lainInput = document.getElementById('merk_ban_lain');
+            lainInput.style.display = this.checked ? 'block' : 'none';
+            lainInput.required = this.checked;
+        });
+
+        // Form submission
+        document.getElementById('formSewaBan').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validateStep(currentStep)) return;
+
+            const formData = new FormData(this);
+            const btnSubmit = document.getElementById('btnSubmit');
+            const btnText = btnSubmit.querySelector('.btn-text') || btnSubmit;
+            const originalText = btnSubmit.innerHTML;
+
+            // Show loading
+            btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Menyimpan...';
+            btnSubmit.disabled = true;
+
+            fetch('backend/process_sewaban.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showAlert('success', data.message);
+                    this.reset();
+                    document.getElementById('tglpengecekan').valueAsDate = new Date();
+                    // Reset to first step
+                    document.querySelectorAll('.form-step').forEach(step => step.classList.remove('active'));
+                    document.getElementById('step1').classList.add('active');
+                    currentStep = 1;
+                    updateStepIndicator();
+                    updateNavigationButtons();
+                } else {
+                    showAlert('error', data.message);
+                }
+            })
+            .catch(error => {
+                showAlert('error', 'Network error: ' + error.message);
+            })
+            .finally(() => {
+                btnSubmit.innerHTML = originalText;
+                btnSubmit.disabled = false;
+            });
+        });
+
+        // Alert function
+        function showAlert(type, message) {
+            const alertSuccess = document.getElementById('alertSuccess');
+            const alertError = document.getElementById('alertError');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Hide all alerts first
+            alertSuccess.style.display = 'none';
+            alertError.style.display = 'none';
+
+            if (type === 'success') {
+                successMessage.textContent = message;
+                alertSuccess.style.display = 'block';
+            } else {
+                errorMessage.textContent = message;
+                alertError.style.display = 'block';
+            }
+
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                alertSuccess.style.display = 'none';
+                alertError.style.display = 'none';
+            }, 5000);
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Data preview for confirmation step
+        function showDataPreview() {
+            const form = document.getElementById('formSewaBan');
+            const formData = new FormData(form);
+            const preview = document.getElementById('dataPreview');
+            
+            let html = `
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Informasi Dasar</h6>
+                        <p><strong>Nama:</strong> ${formData.get('Nama_lengkap')}</p>
+                        <p><strong>Tanggal:</strong> ${formData.get('tglpengecekan')}</p>
+                        <p><strong>Customer:</strong> ${formData.get('customer')}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Data Kendaraan</h6>
+                        <p><strong>Brand:</strong> ${formData.get('truck_brand')}</p>
+                        <p><strong>Jenis:</strong> ${formData.get('Jenis_truck')}</p>
+                        <p><strong>No. Polisi:</strong> ${formData.get('nopol')}</p>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <h6>Spesifikasi Ban</h6>
+                        <p><strong>Posisi:</strong> ${formData.get('posisi_ban')}</p>
+                        <p><strong>Ukuran:</strong> ${formData.get('ukuran_ban')}</p>
+                        <p><strong>Merk:</strong> ${formData.get('merk_ban')}</p>
+                    </div>
+                </div>
+            `;
+            
+            preview.innerHTML = html;
+        }
+
+        // Initialize floating labels
+        document.querySelectorAll('.floating-label input, .floating-label select').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.parentElement.classList.add('focused');
+            });
+            
+            element.addEventListener('blur', function() {
+                if (!this.value) {
+                    this.parentElement.classList.remove('focused');
+                }
+            });
+
+            // Check initial state
+            if (element.value) {
+                element.parentElement.classList.add('focused');
+            }
+        });
+
+        // File input preview
+        document.querySelectorAll('input[type="file"]').forEach(input => {
+            input.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        // You can add image preview functionality here
+                        console.log('File selected:', file.name);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
